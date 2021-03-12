@@ -77,6 +77,8 @@ struct Exit
 	int posY = 0;
 };
 
+void Battle(Hero hero, Monster monster, Difficulty difficulty, int& battleCount);
+
 int main()
 {
 	Hero hero;
@@ -253,120 +255,7 @@ int main()
 		}
 		else if (map[hero.posY][hero.posX] == 'M')
 		{
-			//몬스터 만남
-			cout << endl;
-			cout << endl;
-
-			cout << monster.name[difficulty.level] << "(이)가 나타났다!!!!!!!!!!!!!!!" << endl;
-
-			cout << endl;
-			cout << endl;
-
-			cout << monster.name[difficulty.level] << "를 처치하기 위해 가위바위보를 해야 합니다." << endl;
-
-			cout << endl;
-
-			while (1) //가위바위보 예외처리
-			{
-				cout << "가위, 바위, 보 중 하나를 선택해 주세요." << endl;
-				cout << "1. 가위          2. 바위           3. 보" << endl;
-				cin >> hero.heroInput;
-
-				cout << endl;
-				cout << endl;
-
-				if (hero.heroInput < 0 || hero.heroInput > 3)
-				{
-					cout << "잘못 입력하였습니다. 다시 선택해 주세요!" << endl;
-					cout << endl;
-				}
-				else
-				{
-					break;
-				}
-			}
-
-			monster.monsterInput = rand() % 3 + 1;
-
-			while (monster.monsterInput == hero.heroInput)
-			{
-				//무승부
-				cout << hero.name << "님의 선택 : " << monster.battle[hero.heroInput - 1] << endl;
-				cout << monster.name[difficulty.level] << "의 선택 : " << monster.battle[monster.monsterInput - 1] << endl;
-				
-				cout << endl;
-
-				cout << "무승부 입니다! 한 번 더 진행해 주세요." << endl;
-
-				cout << endl;
-				cout << endl;
-
-				cout << "가위, 바위, 보 중 하나를 선택해 주세요." << endl;
-				cout << "1. 가위          2. 바위           3. 보" << endl;
-				cin >> hero.heroInput;
-
-				cout << endl;
-				cout << endl;
-
-				monster.monsterInput = rand() % 3 + 1;
-			}
-
-			if ((hero.heroInput - monster.monsterInput == -2) || (hero.heroInput - monster.monsterInput == 1))
-			{
-				//승리
-				cout << hero.name << "님의 선택 : " << monster.battle[hero.heroInput - 1] << endl;
-				cout << monster.name[difficulty.level] << "의 선택 : " << monster.battle[monster.monsterInput - 1] << endl;
-				
-				cout << endl;
-				cout << endl;
-
-				cout << "##================================================##" << endl;
-				cout << "||                                                ||" << endl;
-				cout << "||                     승리!                      ||" << endl;
-				cout << "||                     (유후!)                      ||" << endl;
-				cout << "##================================================##" << endl;
-
-				cout << endl;
-				cout << endl;
-
-				cout << monster.name[difficulty.level] << "(을)를 처치하였습니다!" << endl;
-				cout << monster.gold << " 골드를 획득하였습니다." << endl;
-				hero.gold += monster.gold;
-
-				cout << endl;
-				cout << endl; 
-
-				cout << "현재 " << hero.name << "님은 [ HP : " << hero.hp << " ], [ Gold : " << hero.gold << " ] 를 보유하고 있습니다." << endl;
-				battleCount--;
-				cout << "남은 " << monster.name[difficulty.level] << "은(는) " << battleCount << "마리 입니다. " << endl;
-
-				cout << endl;
-				cout << endl;
-			}
-			else
-			{
-				//패배
-				cout << endl;
-				cout << endl;
-
-				cout << hero.name << "님의 선택 : " << monster.battle[hero.heroInput - 1] << endl;
-				cout << monster.name[difficulty.level] << "의 선택 : " << monster.battle[monster.monsterInput - 1] << endl;
-
-				cout << "##================================================##" << endl;
-				cout << "||                                                ||" << endl;
-				cout << "||                     패배!                      ||" << endl;
-				cout << "||                                                ||" << endl;
-				cout << "##================================================##" << endl;
-
-				hero.hp -= monster.attack;
-				
-				cout << "영웅님의 HP가 -" << monster.attack << " 줄었습니다. ㅠㅠ.." << endl;
-				cout << "현재 영웅님의 HP는 " << hero.hp << "입니다." << endl;
-				cout << "남은 " << monster.name[difficulty.level] << "은(는) " << battleCount << "마리 입니다. " << endl;
-
-				cout << endl;
-				cout << endl;
-			}
+			Battle(hero, monster, difficulty, battleCount);
 
 			if (battleCount == 0)
 			{
@@ -525,4 +414,122 @@ int main()
 			}
 		}
 	 }
+}
+
+void Battle(Hero hero, Monster monster, Difficulty difficulty, int& battleCount)
+{
+	//몬스터 만남
+	cout << endl;
+	cout << endl;
+
+	cout << monster.name[difficulty.level] << "(이)가 나타났다!!!!!!!!!!!!!!!" << endl;
+
+	cout << endl;
+	cout << endl;
+
+	cout << monster.name[difficulty.level] << "를 처치하기 위해 가위바위보를 해야 합니다." << endl;
+
+	cout << endl;
+
+	while (1) //가위바위보 예외처리
+	{
+		cout << "가위, 바위, 보 중 하나를 선택해 주세요." << endl;
+		cout << "1. 가위          2. 바위           3. 보" << endl;
+		cin >> hero.heroInput;
+
+		cout << endl;
+		cout << endl;
+
+		if (hero.heroInput < 0 || hero.heroInput > 3)
+		{
+			cout << "잘못 입력하였습니다. 다시 선택해 주세요!" << endl;
+			cout << endl;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	monster.monsterInput = rand() % 3 + 1;
+
+	while (monster.monsterInput == hero.heroInput)
+	{
+		//무승부
+		cout << hero.name << "님의 선택 : " << monster.battle[hero.heroInput - 1] << endl;
+		cout << monster.name[difficulty.level] << "의 선택 : " << monster.battle[monster.monsterInput - 1] << endl;
+
+		cout << endl;
+
+		cout << "무승부 입니다! 한 번 더 진행해 주세요." << endl;
+
+		cout << endl;
+		cout << endl;
+
+		cout << "가위, 바위, 보 중 하나를 선택해 주세요." << endl;
+		cout << "1. 가위          2. 바위           3. 보" << endl;
+		cin >> hero.heroInput;
+
+		cout << endl;
+		cout << endl;
+
+		monster.monsterInput = rand() % 3 + 1;
+	}
+
+	if ((hero.heroInput - monster.monsterInput == -2) || (hero.heroInput - monster.monsterInput == 1))
+	{
+		//승리
+		cout << hero.name << "님의 선택 : " << monster.battle[hero.heroInput - 1] << endl;
+		cout << monster.name[difficulty.level] << "의 선택 : " << monster.battle[monster.monsterInput - 1] << endl;
+
+		cout << endl;
+		cout << endl;
+
+		cout << "##================================================##" << endl;
+		cout << "||                                                ||" << endl;
+		cout << "||                     승리!                      ||" << endl;
+		cout << "||                     (유후!)                      ||" << endl;
+		cout << "##================================================##" << endl;
+
+		cout << endl;
+		cout << endl;
+
+		cout << monster.name[difficulty.level] << "(을)를 처치하였습니다!" << endl;
+		cout << monster.gold << " 골드를 획득하였습니다." << endl;
+		hero.gold += monster.gold;
+
+		cout << endl;
+		cout << endl;
+
+		cout << "현재 " << hero.name << "님은 [ HP : " << hero.hp << " ], [ Gold : " << hero.gold << " ] 를 보유하고 있습니다." << endl;
+		battleCount--;
+		cout << "남은 " << monster.name[difficulty.level] << "은(는) " << battleCount << "마리 입니다. " << endl;
+
+		cout << endl;
+		cout << endl;
+	}
+	else
+	{
+		//패배
+		cout << endl;
+		cout << endl;
+
+		cout << hero.name << "님의 선택 : " << monster.battle[hero.heroInput - 1] << endl;
+		cout << monster.name[difficulty.level] << "의 선택 : " << monster.battle[monster.monsterInput - 1] << endl;
+
+		cout << "##================================================##" << endl;
+		cout << "||                                                ||" << endl;
+		cout << "||                     패배!                      ||" << endl;
+		cout << "||                                                ||" << endl;
+		cout << "##================================================##" << endl;
+
+		hero.hp -= monster.attack;
+
+		cout << "영웅님의 HP가 -" << monster.attack << " 줄었습니다. ㅠㅠ.." << endl;
+		cout << "현재 영웅님의 HP는 " << hero.hp << "입니다." << endl;
+		cout << "남은 " << monster.name[difficulty.level] << "은(는) " << battleCount << "마리 입니다. " << endl;
+
+		cout << endl;
+		cout << endl;
+	}
 }
